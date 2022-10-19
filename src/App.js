@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
 import LoginPage from "./LoginPage";
@@ -12,7 +11,6 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <All>
                 <GlobalStyle />
                 <Routes>
                     <Route path="/" element={<LoginPage />}></Route>
@@ -21,14 +19,6 @@ export default function App() {
                     <Route path="/hoje" element={<HojePage />}></Route>
                     <Route path="/historico" element={<HistoricoPage />}></Route>
                 </Routes>
-            </All>
         </BrowserRouter>
     )
 }
-
-const All = styled.div`
-    width: 375px;
-    height: 100vh;
-    align-items: center;
-    background-color: burlywood;
-`

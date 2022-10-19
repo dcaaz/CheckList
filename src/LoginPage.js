@@ -1,33 +1,87 @@
 import styled from "styled-components";
 import Logo from "./Imagem/Logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 export default function LoginPage() {
+
+    const [emailLogin, setEmailLogin] = useState("");
+    const [senhaLogin, setSenhaLogin] = useState("");
+    const navigate = useNavigate();
+
+    function logar(e) {
+        e.preventDefault()
+
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
+
+        const body = {
+            email: emailLogin,
+            password: senhaLogin
+        }
+
+        const promise = axios.post(URL, body);
+        promise.then(() => {
+            alert("Deu Certo!!!")
+            navigate("/habitos")
+        })
+
+        promise.catch((err) => {
+            console.log("erro", err.response.data.mensagem);
+            alert(err.response.data.mensagem);
+        })
+
+    }
+
     return (
-        <>
+        <Branco>
             <LogoTipo>
                 <img src={Logo} alt="logo" />
             </LogoTipo>
-            <Input>
-                <input
-                    placeholder="   email"
-                />
-            </Input>
-            <Input>
-                <input
-                    placeholder="  senha"
-                />
-            </Input>
-            <Botao>
-                <button>
-                    <h1>Entrar</h1>
-                </button>
-            </Botao>
+
+            <form onSubmit={logar}>
+                <Input>
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="   email"
+                        onChange={(e) => setEmailLogin(e.target.value)}
+                        value={emailLogin}
+                        required
+                    />
+                </Input>
+                <Input>
+                    <input
+                        id="senha"
+                        type="password"
+                        placeholder="  senha"
+                        onChange={(e) => setSenhaLogin(e.target.value)}
+                        value={senhaLogin}
+                        required
+                    />
+                </Input>
+                <Botao>
+                    <button type="submit">
+                        <h1>Entrar</h1>
+                    </button>
+                </Botao>
+            </form>
+
             <Cadastro>
-                <h1>Não tem uma conta? Cadastre-se!</h1>
+                <Link to="/cadastro">
+                    <h1>Não tem uma conta? Cadastre-se!</h1>
+                </Link>
             </Cadastro>
-        </>
+        </Branco>
     )
 }
+
+const Branco = styled.div`
+    width: 375px;
+    height: 100vh;
+    align-items: center;
+
+`
 
 const LogoTipo = styled.div`
     display: flex;
@@ -82,6 +136,8 @@ const Cadastro = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    vertical-align: top;
+    vertical-align: #52B6FF;
     h1{
         color: #52B6FF;
         font-style: regular;

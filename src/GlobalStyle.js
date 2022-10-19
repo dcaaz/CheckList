@@ -51,6 +51,9 @@ const GlobalStyle = createGlobalStyle`
         border-collapse: collapse;
         border-spacing: 0;
     }
+    a{
+        color: #52B6FF;
+    }
 
 `
 

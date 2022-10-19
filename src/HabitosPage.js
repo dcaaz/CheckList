@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import BobEsponja from "./Imagem/BobEsponja.png";
+import Fundo from "./Imagem/FundoHoje.png";
+import { Link } from "react-router-dom";
 
 export default function HabitosPage() {
     return (
-        <>
+        <Cinza>
             <Header>
                 <h1>Tracklt</h1>
-                <img src={BobEsponja} />
+                <img src={BobEsponja} alt="foto de perfil do usuário"/>
             </Header>
             <Menu>
                 <h1>Meus hábitos</h1>
@@ -16,13 +18,24 @@ export default function HabitosPage() {
                 <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
             </Texto>
             <Footer>
-                <h1>teste</h1>
-                <h1>teste</h1>
-                <h1>teste</h1>
+                <h1>Hábitos</h1>
+                <Link to="/hoje">
+                <img src={Fundo} alt="icone hoje"/>
+                </Link>
+                <Link to="/historico">
+                <h1>Histórico</h1>
+                </Link>
             </Footer>
-        </>
+        </Cinza>
     )
 }
+
+const Cinza = styled.div`
+    width: 375px;
+    height: 100vh;
+    align-items: center;
+    background-color: #E5E5E5;
+`
 
 const Header = styled.div`
     background-color: #126BA5;
@@ -101,5 +114,9 @@ const Footer = styled.div`
         line-height: 22px;
         line-height: 100%;
         color: #52B6FF;
+    }
+    img{
+        margin-bottom: 16px;
+        display: flex;
     }
 `
