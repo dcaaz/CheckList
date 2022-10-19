@@ -9,10 +9,13 @@ export default function CadastroPage() {
     const [senhaCadastro, setSenhaCadastro] = useState("");
     const [nomeCadastro, setNomeCadastro] = useState("");
     const [fotoCadastro, setFotoCadastro] = useState("");
+    const [desabilitarInput, setDesabilitarInput] = useState(false);
     const navigate = useNavigate();
 
     function cadastrar(e) {
-        e.preventDefault()
+        e.preventDefault();
+
+        setDesabilitarInput(true);
 
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
 
@@ -26,13 +29,13 @@ export default function CadastroPage() {
         const promise = axios.post(URL, body);
 
         promise.then(() => {
-           alert("Deu Certo!!!");
-           navigate("/habitos");
+            navigate("/");
         })
 
         promise.catch((err) => {
             console.log("erro", err.response.data.mensagem);
             alert(err.response.data.mensagem);
+            setDesabilitarInput(false);
         })
 
     }
@@ -52,6 +55,7 @@ export default function CadastroPage() {
                         onChange={(e) => setEmailCadastro(e.target.value)}
                         value={emailCadastro}
                         required
+                        disabled={desabilitarInput}
                     />
                 </Input>
                 <Input>
@@ -62,6 +66,7 @@ export default function CadastroPage() {
                         onChange={(e) => setSenhaCadastro(e.target.value)}
                         value={senhaCadastro}
                         required
+                        disabled={desabilitarInput}
                     />
                 </Input>
                 <Input>
@@ -72,6 +77,7 @@ export default function CadastroPage() {
                         onChange={(e) => setNomeCadastro(e.target.value)}
                         value={nomeCadastro}
                         required
+                        disabled={desabilitarInput}
                     />
                 </Input>
                 <Input>
@@ -82,6 +88,7 @@ export default function CadastroPage() {
                         onChange={(e) => setFotoCadastro(e.target.value)}
                         value={fotoCadastro}
                         required
+                        disabled={desabilitarInput}
                     />
                 </Input>
                 <Botao>
@@ -90,6 +97,15 @@ export default function CadastroPage() {
                     </button>
                 </Botao>
             </form>
+
+            {/* <Loader
+                type="Spinner Type"
+                color="rgb color"
+                height={number}
+                width={number}
+                timeout={number in ms}
+            /> */}
+
             <Cadastro>
 
                 <Link to="/">
@@ -97,11 +113,12 @@ export default function CadastroPage() {
                 </Link>
             </Cadastro>
         </Branco>
+
     )
 }
 
 const Branco = styled.div`
-    width: 375px;
+    width: 100%;
     height: 100vh;
     align-items: center;
 

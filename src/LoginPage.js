@@ -4,14 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-export default function LoginPage() {
+export default function LoginPage({ setToken }) {
 
     const [emailLogin, setEmailLogin] = useState("");
     const [senhaLogin, setSenhaLogin] = useState("");
+    const [desabilitarInput, setDesabilitarInput] = useState(false);
+    //const [carregando, setCarregando] = useState(false);
     const navigate = useNavigate();
 
     function logar(e) {
-        e.preventDefault()
+        e.preventDefault();
+
+        setDesabilitarInput(true);
 
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
 
@@ -21,14 +25,16 @@ export default function LoginPage() {
         }
 
         const promise = axios.post(URL, body);
-        promise.then(() => {
-            alert("Deu Certo!!!")
-            navigate("/habitos")
+        promise.then((res) => {
+            navigate("/habitos");
+            console.log(res);
+            setToken(res.data.token);
         })
 
         promise.catch((err) => {
             console.log("erro", err.response.data.mensagem);
             alert(err.response.data.mensagem);
+            setDesabilitarInput(false);
         })
 
     }
@@ -48,6 +54,7 @@ export default function LoginPage() {
                         onChange={(e) => setEmailLogin(e.target.value)}
                         value={emailLogin}
                         required
+                        disabled={desabilitarInput}
                     />
                 </Input>
                 <Input>
@@ -58,6 +65,7 @@ export default function LoginPage() {
                         onChange={(e) => setSenhaLogin(e.target.value)}
                         value={senhaLogin}
                         required
+                        disabled={desabilitarInput}
                     />
                 </Input>
                 <Botao>
@@ -77,7 +85,7 @@ export default function LoginPage() {
 }
 
 const Branco = styled.div`
-    width: 375px;
+    width: 100%;
     height: 100vh;
     align-items: center;
 

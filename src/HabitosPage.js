@@ -2,28 +2,49 @@ import styled from "styled-components";
 import BobEsponja from "./Imagem/BobEsponja.png";
 import Fundo from "./Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import CriarHabito from "./CriarHabito";
 
 export default function HabitosPage() {
+
+    useEffect(() => {
+        const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(url, config);
+
+        promise.then((res) => {
+            console.log(res);
+        })
+
+        promise.catch((erro) => {
+            console.log(erro.response.data);
+        })
+    }, []);
+
     return (
         <Cinza>
             <Header>
                 <h1>Tracklt</h1>
-                <img src={BobEsponja} alt="foto de perfil do usuário"/>
+                <img src={BobEsponja} alt="foto de perfil do usuário" />
             </Header>
-            <Menu>
-                <h1>Meus hábitos</h1>
-                <button>+</button>
-            </Menu>
+            <CriarHabito token={token}/>
             <Texto>
                 <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
             </Texto>
             <Footer>
                 <h1>Hábitos</h1>
                 <Link to="/hoje">
-                <img src={Fundo} alt="icone hoje"/>
+                    <img src={Fundo} alt="icone hoje" />
                 </Link>
                 <Link to="/historico">
-                <h1>Histórico</h1>
+                    <h1>Histórico</h1>
                 </Link>
             </Footer>
         </Cinza>
@@ -31,7 +52,7 @@ export default function HabitosPage() {
 }
 
 const Cinza = styled.div`
-    width: 375px;
+    width: 100%;
     height: 100vh;
     align-items: center;
     background-color: #E5E5E5;
@@ -46,6 +67,8 @@ const Header = styled.div`
     justify-content: space-between;
     padding: 0px 18px;
     box-sizing: border-box;
+    position: fixed;
+    top: 0px;
     h1 {
         color: #FFFFFF;
         font-style: regular;
@@ -60,33 +83,6 @@ const Header = styled.div`
     }
 `
 
-const Menu = styled.div`
-    height:  40px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 28px 0px;
-    padding: 0px 18px;
-    box-sizing: border-box;
-    h1 {
-        color: #126BA5;
-        font-style: regular;
-        font-size: 22.98px;
-        font-weight: 400;
-        line-height: 29px;
-    }
-    button {
-        background-color: #52B6FF;
-        width: 40px;
-        height: 35px;
-        border-radius: 4.64px;
-        border-style: none;
-        color: #FFFFFF;
-        font-size: 27px;
-    }
-`
-
 const Texto = styled.div`
     margin: 0px 20px;
     h1 {
@@ -98,7 +94,7 @@ const Texto = styled.div`
     }
 `
 const Footer = styled.div`
-    width: 375px;
+   width: 100%;
     height: 70px;
     background-color: #FFFFFF;
     display: flex;
