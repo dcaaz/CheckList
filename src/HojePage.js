@@ -1,23 +1,84 @@
 import styled from "styled-components";
-import BobEsponja from "./Imagem/BobEsponja.png";
 import Fundo from "./Imagem/FundoHoje.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import FundoVerde from "./Imagem/FundoVerde.png";
 import FundoCinza from "./Imagem/FundoCinza.png";
+import { AuthContext } from "./Ayth";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import dayjs from "dayjs";
+import 'dayjs/locale/pt-br';
 
 export default function HojePage() {
+
+    const navigate = useNavigate;
+
+    const { token, foto } = useContext(AuthContext);
+
+    const [habitosHoje, setHabitosHoje] = useState("");
+
+    console.log("day", dayjs().locale("pt-br").format("dddd, D/MM"));
+
+    let dia = dayjs().locale("pt-br").format("dddd, D/MM");
+    dia = dia[0].toUpperCase() + dia.substring(1).replace('-feira', '');
+
+    useEffect(() => {
+        const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(url, config);
+
+        promise.then((res) => {
+            console.log("res hoje", res);
+            setHabitosHoje(res.data);
+        })
+
+        promise.catch((erro) => {
+            console.log(erro.response.data);
+            navigate("/");
+            window.location.reload();
+        })
+    }, []);
+
+    if (!habitosHoje) {
+        return <Carregando>Carregando....</Carregando>
+    }
+
     return (
         <Cinza>
             <Header>
                 <h1>Tracklt</h1>
-                <img src={BobEsponja} alt="foto de perfil do usuário"/>
+                <img src={foto} alt="foto de perfil do usuário" />
             </Header>
+
             <DiaDaSemana>
-                <h1>Segunda, 17/05</h1>
+                <h1>{dia}</h1>
             </DiaDaSemana>
+
             <PorcentagemHabitos>
                 <h1>Nenhum hábito concluído ainda</h1>
             </PorcentagemHabitos>
+
+            {habitosHoje.map((h) =>
+                <Metas key={h.id}>
+                    <Texto>
+                        <h1>{h.nome}</h1>
+                        <Dados>
+                            <h1>Sequência atual:{h.currentSequence} dia</h1>
+                            <h1>Seu recorde:{h.highestSequence} dia</h1>
+                        </Dados>
+                    </Texto>
+                    <Check>
+                        <img src={FundoCinza} alt="check na tarefa" />
+                    </Check>
+                </Metas>
+            )}
+
             <Metas>
                 <Texto>
                     <h1>Ler 1 capítulo de livro</h1>
@@ -30,25 +91,14 @@ export default function HojePage() {
                     <img src={FundoCinza} alt="check na tarefa" />
                 </Check>
             </Metas>
-            <Metas>
-                <Texto>
-                    <h1>Ler 1 capítulo de livro</h1>
-                    <Dados>
-                        <h1>Sequência atual: 3 dias</h1>
-                        <h1>Seu recorde: 5 dias</h1>
-                    </Dados>
-                </Texto>
-                <Check>
-                    <img src={FundoCinza} alt="check na tarefa" />
-                </Check>
-            </Metas>
+
             <Footer>
-                <h1>Hábitos</h1>
-                <Link to="/hoje">
-                    <img src={Fundo} alt="icone hoje" />
+                <Link to="/habitos">
+                    <h1>Hábitos</h1>
                 </Link>
+                <img src={Fundo} alt="icone hoje" />
                 <Link to="/historico">
-                <h1>Histórico</h1>
+                    <h1>Histórico</h1>
                 </Link>
             </Footer>
         </Cinza>
@@ -56,7 +106,7 @@ export default function HojePage() {
 }
 
 const Cinza = styled.div`
-    width: 375px;
+    width: 100%;
     height: 100vh;
     align-items: center;
     background-color: #E5E5E5;
@@ -71,6 +121,8 @@ const Header = styled.div`
     justify-content: space-between;
     padding: 0px 18px;
     box-sizing: border-box;
+    position: fixed;
+    top: 0px;
     h1 {
         color: #FFFFFF;
         font-style: regular;
@@ -87,9 +139,11 @@ const Header = styled.div`
 
 const DiaDaSemana = styled.div`
     height: 29px;
-    margin-top: 28px;
+    margin-top: 68px;
+    padding-top: 30px;
     margin-left: 17px;
     margin-bottom: 28px;
+    box-sizing: border-box;
     h1 {
         color: #126BA5;
         font-style: regular;
@@ -154,7 +208,7 @@ const Check = styled.div`
 `
 
 const Footer = styled.div`
-    width: 375px;
+    width: 100%;
     height: 70px;
     background-color: #FFFFFF;
     display: flex;
@@ -175,4 +229,8 @@ const Footer = styled.div`
         margin-bottom: 16px;
         display: flex;
     }
+`
+
+const Carregando = styled.h1`
+    font-size: 40px;
 `

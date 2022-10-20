@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function CriarHabito({ token }) {
+export default function CriarHabito() {
 
     // const [nomeHabito, setNomeHabito] = useState("");
     // const [diasHabito, setDiasHabito] = useState("");

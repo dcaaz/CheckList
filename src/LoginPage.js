@@ -3,14 +3,19 @@ import Logo from "./Imagem/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "./Ayth";
 
-export default function LoginPage({ setToken }) {
+export default function LoginPage() {
 
     const [emailLogin, setEmailLogin] = useState("");
     const [senhaLogin, setSenhaLogin] = useState("");
     const [desabilitarInput, setDesabilitarInput] = useState(false);
     //const [carregando, setCarregando] = useState(false);
     const navigate = useNavigate();
+    
+    const {setToken, setFoto} = useContext(AuthContext);
+
 
     function logar(e) {
         e.preventDefault();
@@ -26,9 +31,10 @@ export default function LoginPage({ setToken }) {
 
         const promise = axios.post(URL, body);
         promise.then((res) => {
-            navigate("/habitos");
-            console.log(res);
             setToken(res.data.token);
+            setFoto(res.data.image)
+            navigate("/hoje");
+            console.log(res);
         })
 
         promise.catch((err) => {

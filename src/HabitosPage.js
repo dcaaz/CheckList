@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import BobEsponja from "./Imagem/BobEsponja.png";
 import Fundo from "./Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
+import { AuthContext } from "./Ayth";
 
 export default function HabitosPage() {
+
+    const {token, foto} = useContext(AuthContext);
 
     useEffect(() => {
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
@@ -32,16 +34,21 @@ export default function HabitosPage() {
         <Cinza>
             <Header>
                 <h1>Tracklt</h1>
-                <img src={BobEsponja} alt="foto de perfil do usuário" />
+                <img src={foto} alt="foto de perfil do usuário" />
             </Header>
-            <CriarHabito token={token}/>
+
+            <CriarHabito/>
+
             <Texto>
                 <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
             </Texto>
+
             <Footer>
-                <h1>Hábitos</h1>
+                <Link to="/habitos">
+                    <h1>Hábitos</h1>
+                </Link>
                 <Link to="/hoje">
-                    <img src={Fundo} alt="icone hoje" />
+                <img src={Fundo} alt="icone hoje" />
                 </Link>
                 <Link to="/historico">
                     <h1>Histórico</h1>
@@ -94,7 +101,7 @@ const Texto = styled.div`
     }
 `
 const Footer = styled.div`
-   width: 100%;
+    width: 100%;
     height: 70px;
     background-color: #FFFFFF;
     display: flex;

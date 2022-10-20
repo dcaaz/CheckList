@@ -1,14 +1,20 @@
 import styled from "styled-components";
-import BobEsponja from "./Imagem/BobEsponja.png";
 import Fundo from "./Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "./Ayth";
+import { useContext, useEffect, useState } from "react";
+
 
 export default function HistoricoPage() {
+
+    const {token, foto} = useContext(AuthContext);
+
     return (
         <Cinza>
             <Header>
                 <h1>Tracklt</h1>
-                <img src={BobEsponja} alt="foto de perfil do usuário" />
+                <img src={foto} alt="foto de perfil do usuário" />
             </Header>
             <Menu>
                 <h1>Histórico</h1>
@@ -30,7 +36,7 @@ export default function HistoricoPage() {
 }
 
 const Cinza = styled.div`
-    width: 375px;
+    width: 100%;
     height: 100vh;
     align-items: center;
     background-color: #E5E5E5;
@@ -45,6 +51,8 @@ const Header = styled.div`
     justify-content: space-between;
     padding: 0px 18px;
     box-sizing: border-box;
+    position: fixed;
+    top: 0px;
     h1 {
         color: #FFFFFF;
         font-style: regular;
@@ -88,7 +96,7 @@ const Texto = styled.div`
     }
 `
 const Footer = styled.div`
-    width: 375px;
+    width: 100%;
     height: 70px;
     background-color: #FFFFFF;
     display: flex;
