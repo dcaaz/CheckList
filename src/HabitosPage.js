@@ -5,11 +5,15 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
 import { AuthContext } from "./Ayth";
+import DeletarHabito from "./DeletarHabito";
+
 
 export default function HabitosPage() {
 
-    const {token, foto} = useContext(AuthContext);
+    const { token, foto } = useContext(AuthContext);
     const navigate = useNavigate;
+
+    const todosOsDias = ["D", "S", "T", "Q", "Q", "S", "S"];
 
     const [habitosCriados, setHabitosCriados] = useState("");
 
@@ -25,7 +29,7 @@ export default function HabitosPage() {
         const promise = axios.get(url, config);
 
         promise.then((res) => {
-            console.log("res habito", res.data);
+            console.log("res habito habito", res.data);
             setHabitosCriados(res.data);
         })
 
@@ -49,16 +53,39 @@ export default function HabitosPage() {
 
             <CriarHabito />
 
-            <Texto>
-                <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
-            </Texto>
+            {(habitosCriados.length === 0) ?
+                (<Texto>
+                    <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
+                </Texto>)
+                :
+                (habitosCriados.map((h, i) =>
+                    <Aba key={i}>
+                        <Top>
+                            <h1>{h.name}</h1>
+                            <DeletarHabito />
+                        </Top>
+
+                        <Buttons>
+                            {todosOsDias.map((item, i) =>
+                                <Button
+                                    key={i}
+                                    corFundo={h.days.includes(i)}
+                                    corLetra={h.days.includes(i)}
+                                >
+                                    {item}
+                                </Button>
+                            )}
+                        </Buttons>
+
+                    </Aba>
+                ))}
 
             <Footer>
                 <Link to="/habitos">
                     <h1>Hábitos</h1>
                 </Link>
                 <Link to="/hoje">
-                <img src={Fundo} alt="icone hoje" />
+                    <img src={Fundo} alt="icone hoje" />
                 </Link>
                 <Link to="/historico">
                     <h1>Histórico</h1>
@@ -73,6 +100,7 @@ const Cinza = styled.div`
     height: 100vh;
     align-items: center;
     background-color: #E5E5E5;
+    margin-bottom: 50px;
 `
 
 const Header = styled.div`
@@ -110,6 +138,46 @@ const Texto = styled.div`
         color: #666666;
     }
 `
+const Aba = styled.div`
+    width: 340px;
+    height: 91px;
+    background-color: #FFFFFF;
+    margin-top: 20px;
+    margin-left: 17px;
+    border-radius: 5px;
+`
+
+const Top = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 15px;
+    padding: 8px 0px;
+    box-sizing: border-box;
+    h1{
+        height: 25px;
+        color: #666666;
+    }
+`
+
+const Buttons = styled.div`
+    display: flex;
+    margin-left: 15px;
+`
+
+const Button = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    width: 30px;
+    height: 30px;
+    background-color:${props => props.corFundo ? "#CFCFCF" : "#FFFFFF"};
+    color:  ${props => props.corLetra ? "#FFFFFF" : "#D4D4D4"};
+    border: 1px solid #CFCFCF;
+    border-radius: 5px;
+`
+
 const Footer = styled.div`
     width: 100%;
     height: 70px;

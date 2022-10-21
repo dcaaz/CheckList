@@ -54,7 +54,7 @@ export default function CriarHabito() {
         const promise = axios.post(URL, body, config);
 
         promise.then((res) => {
-            console.log(res.data);
+            console.log("resp pagina criar habitos", res.data);
             setHabitoCriado(res.data);
             setDesabilitar(false);
             setNomeHabito("");

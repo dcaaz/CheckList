@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Fundo from "./Imagem/FundoHoje.png";
 import { Link, useNavigate } from "react-router-dom";
-//import FundoVerde from "./Imagem/FundoVerde.png";
+import FundoVerde from "./Imagem/FundoVerde.png";
 import FundoCinza from "./Imagem/FundoCinza.png";
 import { AuthContext } from "./Ayth";
 import { useContext, useEffect, useState } from "react";
@@ -68,8 +68,8 @@ export default function HojePage() {
                     <Texto>
                         <h1>{h.name}</h1>
                         <Dados>
-                            <h1>Sequência atual:{h.currentSequence} dia</h1>
-                            <h1>Seu recorde:{h.highestSequence} dia</h1>
+                            <h1>Sequência atual: {h.currentSequence} dia</h1>
+                            <h1>Seu recorde: {h.highestSequence} dia</h1>
                         </Dados>
                     </Texto>
                     <Check>
