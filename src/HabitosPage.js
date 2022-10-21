@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Fundo from "./Imagem/FundoHoje.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
@@ -9,6 +9,9 @@ import { AuthContext } from "./Ayth";
 export default function HabitosPage() {
 
     const {token, foto} = useContext(AuthContext);
+    const navigate = useNavigate;
+
+    const [habitosCriados, setHabitosCriados] = useState("");
 
     useEffect(() => {
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
@@ -22,13 +25,20 @@ export default function HabitosPage() {
         const promise = axios.get(url, config);
 
         promise.then((res) => {
-            console.log(res);
+            console.log("res habito", res.data);
+            setHabitosCriados(res.data);
         })
 
         promise.catch((erro) => {
-            console.log(erro.response.data);
+            console.log("erro pagina habitos", erro.response.data);
+            navigate("/");
+            window.location.reload();
         })
-    }, []);
+    }, [navigate, token]);
+
+    if (!habitosCriados) {
+        return <Carregando>Carregando....</Carregando>
+    }
 
     return (
         <Cinza>
@@ -37,7 +47,7 @@ export default function HabitosPage() {
                 <img src={foto} alt="foto de perfil do usuário" />
             </Header>
 
-            <CriarHabito/>
+            <CriarHabito />
 
             <Texto>
                 <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
@@ -122,4 +132,8 @@ const Footer = styled.div`
         margin-bottom: 16px;
         display: flex;
     }
+`
+
+const Carregando = styled.h1`
+    font-size: 40px;
 `

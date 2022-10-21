@@ -11,9 +11,8 @@ import 'dayjs/locale/pt-br';
 
 export default function HojePage() {
 
-    const navigate = useNavigate;
-
     const { token, foto } = useContext(AuthContext);
+    const navigate = useNavigate;
 
     const [habitosHoje, setHabitosHoje] = useState("");
 
@@ -39,11 +38,11 @@ export default function HojePage() {
         })
 
         promise.catch((erro) => {
-            console.log(erro.response.data);
+            console.log("erro pagina hoje", erro.response.data);
             navigate("/");
             window.location.reload();
         })
-    }, []);
+    }, [navigate, token]);
 
     if (!habitosHoje) {
         return <Carregando>Carregando....</Carregando>
@@ -67,7 +66,7 @@ export default function HojePage() {
             {habitosHoje.map((h) =>
                 <Metas key={h.id}>
                     <Texto>
-                        <h1>{h.nome}</h1>
+                        <h1>{h.name}</h1>
                         <Dados>
                             <h1>Sequência atual:{h.currentSequence} dia</h1>
                             <h1>Seu recorde:{h.highestSequence} dia</h1>
@@ -78,19 +77,6 @@ export default function HojePage() {
                     </Check>
                 </Metas>
             )}
-
-            <Metas>
-                <Texto>
-                    <h1>Ler 1 capítulo de livro</h1>
-                    <Dados>
-                        <h1>Sequência atual: 3 dias</h1>
-                        <h1>Seu recorde: 5 dias</h1>
-                    </Dados>
-                </Texto>
-                <Check>
-                    <img src={FundoCinza} alt="check na tarefa" />
-                </Check>
-            </Metas>
 
             <Footer>
                 <Link to="/habitos">

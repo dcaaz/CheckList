@@ -37,9 +37,8 @@ export default function LoginPage() {
             console.log(res);
         })
 
-        promise.catch((err) => {
-            console.log("erro", err.response.data.mensagem);
-            alert(err.response.data.mensagem);
+        promise.catch((erro) => {
+            console.log("erro pagina de login", erro.response.data.mensagem);
             setDesabilitarInput(false);
         })
 

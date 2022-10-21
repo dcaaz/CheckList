@@ -32,9 +32,8 @@ export default function CadastroPage() {
             navigate("/");
         })
 
-        promise.catch((err) => {
-            console.log("erro", err.response.data.mensagem);
-            alert(err.response.data.mensagem);
+        promise.catch((erro) => {
+            console.log("erro pagina de cadastro", erro.response.data.mensagem);
             setDesabilitarInput(false);
         })
 

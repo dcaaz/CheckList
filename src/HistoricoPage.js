@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import Fundo from "./Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { AuthContext } from "./Ayth";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 
 export default function HistoricoPage() {
 
-    const {token, foto} = useContext(AuthContext);
+    const { foto } = useContext(AuthContext);
 
     return (
         <Cinza>
@@ -23,12 +22,14 @@ export default function HistoricoPage() {
                 <h1>Em breve você poderá ver o histórico dos seus hábitos aqui!</h1>
             </Texto>
             <Footer>
-                <h1>Hábitos</h1>
+                <Link to="/habitos">
+                    <h1>Hábitos</h1>
+                </Link>
                 <Link to="/hoje">
-                <img src={Fundo} alt="icone hoje"/>
+                    <img src={Fundo} alt="icone hoje" />
                 </Link>
                 <Link to="/historico">
-                <h1>Histórico</h1>
+                    <h1>Histórico</h1>
                 </Link>
             </Footer>
         </Cinza>
