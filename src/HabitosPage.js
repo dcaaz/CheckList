@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Fundo from "./Imagem/FundoHoje.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
@@ -11,7 +11,6 @@ import DeletarHabito from "./DeletarHabito";
 export default function HabitosPage() {
 
     const { token, foto } = useContext(AuthContext);
-    const navigate = useNavigate;
 
     const todosOsDias = ["D", "S", "T", "Q", "Q", "S", "S"];
 
@@ -35,10 +34,9 @@ export default function HabitosPage() {
 
         promise.catch((erro) => {
             console.log("erro pagina habitos", erro.response.data);
-            navigate("/");
-            window.location.reload();
+            alert(erro.response.data.mensagem);
         })
-    }, [navigate, token]);
+    }, [token]);
 
     if (!habitosCriados) {
         return <Carregando>Carregando....</Carregando>

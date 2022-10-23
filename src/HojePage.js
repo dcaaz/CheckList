@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import Fundo from "./Imagem/FundoHoje.png";
-import { Link, useNavigate } from "react-router-dom";
-import FundoVerde from "./Imagem/FundoVerde.png";
-import FundoCinza from "./Imagem/FundoCinza.png";
+import { Link } from "react-router-dom";
+import CheckImg from "./Imagem/Check.png";
 import { AuthContext } from "./Ayth";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -12,11 +11,8 @@ import 'dayjs/locale/pt-br';
 export default function HojePage() {
 
     const { token, foto } = useContext(AuthContext);
-    const navigate = useNavigate;
 
     const [habitosHoje, setHabitosHoje] = useState("");
-
-    console.log("day", dayjs().locale("pt-br").format("dddd, D/MM"));
 
     let dia = dayjs().locale("pt-br").format("dddd, D/MM");
     dia = dia[0].toUpperCase() + dia.substring(1).replace('-feira', '');
@@ -39,10 +35,9 @@ export default function HojePage() {
 
         promise.catch((erro) => {
             console.log("erro pagina hoje", erro.response.data);
-            navigate("/");
-            window.location.reload();
+            alert(erro.response.data.mensagem);
         })
-    }, [navigate, token]);
+    }, [token]);
 
     if (!habitosHoje) {
         return <Carregando>Carregando....</Carregando>
@@ -73,7 +68,7 @@ export default function HojePage() {
                         </Dados>
                     </Texto>
                     <Check>
-                        <img src={FundoCinza} alt="check na tarefa" />
+                        <img src={CheckImg} alt="check na tarefa" />
                     </Check>
                 </Metas>
             )}
@@ -158,6 +153,7 @@ const Metas = styled.div`
     height: 94px;
     margin-left: 17px;
     margin-bottom: 10px;
+    border-radius: 5px;
     background-color: #FFFFFF;
     display: flex;
     justify-content: space-between;
@@ -165,6 +161,7 @@ const Metas = styled.div`
     padding: 13px 13px;
     box-sizing: border-box;
 `
+
 const Texto = styled.div`
     width: 208px;
     h1{
@@ -189,8 +186,17 @@ const Dados = styled.div`
 `
 
 const Check = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 69px;
     height: 69px;
+    background-color: #8FC549;
+    border-radius: 5px;
+    img{
+        width: 35px;
+        height: 28px;
+    }
 `
 
 const Footer = styled.div`

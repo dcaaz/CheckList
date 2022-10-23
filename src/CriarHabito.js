@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "./Ayth";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function CriarHabito() {
 
     const { token } = useContext(AuthContext);
-    const navigate = useNavigate;
 
     const todosOsDias = ["D", "S", "T", "Q", "Q", "S", "S"];
 
@@ -16,9 +15,12 @@ export default function CriarHabito() {
     const [desabilitar, setDesabilitar] = useState(false);
     const [esconde, setEsconde] = useState("none");
     const [habitoCriado, setHabitoCriado] = useState("");
+    const [carregando, setCarregando] = useState(false);
 
     function botaoMais() {
         setEsconde("flex");
+        setCarregando(false);
+        setDesabilitar(false);
     }
 
     function diasClicados(dia) {
@@ -31,12 +33,10 @@ export default function CriarHabito() {
         }
     }
 
-    console.log("dia da semana", diaDaSemana);
-    console.log("nomeHabito", nomeHabito);
-
     function salvar() {
 
         setDesabilitar(true);
+        setCarregando(true);
 
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
 
@@ -56,15 +56,14 @@ export default function CriarHabito() {
         promise.then((res) => {
             console.log("resp pagina criar habitos", res.data);
             setHabitoCriado(res.data);
-            setDesabilitar(false);
             setNomeHabito("");
             setDiaDaSemana([]);
+            setEsconde("none");
         })
 
         promise.catch((erro) => {
             console.log("erro pagina criar habitos", erro.response.data);
-            navigate("/");
-            window.location.reload();
+            alert(erro.response.data.mensagem);
         })
     }
 
@@ -108,7 +107,15 @@ export default function CriarHabito() {
 
                 <Salvar>
                     <h1 onClick={cancelar}>Cancelar</h1>
-                    <button onClick={salvar}>Salvar</button>
+                    <button onClick={salvar}>
+                        {carregando ?
+                            <ThreeDots
+                                color={"white"}
+                            />
+                            :
+                            <>Salvar</>
+                        }
+                    </button>
                 </Salvar>
 
             </AbaCadastro>
@@ -201,12 +208,14 @@ const Salvar = styled.div`
     margin-left: 148px;
     margin-top: 20px;
     button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 84px;
         height: 35px;
         background-color: #52B6FF;
         color: #FFFFFF;
         margin-left: 23px;
-
         border: 1px solid #52B6FF;
         border-radius: 5px;
     }

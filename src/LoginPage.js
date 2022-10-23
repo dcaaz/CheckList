@@ -5,22 +5,24 @@ import { useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "./Ayth";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function LoginPage() {
 
     const [emailLogin, setEmailLogin] = useState("");
     const [senhaLogin, setSenhaLogin] = useState("");
-    const [desabilitarInput, setDesabilitarInput] = useState(false);
-    //const [carregando, setCarregando] = useState(false);
+    const [desabilitar, setDesabilitar] = useState(false);
+    const [carregando, setCarregando] = useState(false);
     const navigate = useNavigate();
-    
-    const {setToken, setFoto} = useContext(AuthContext);
+
+    const { setToken, setFoto } = useContext(AuthContext);
 
 
     function logar(e) {
         e.preventDefault();
 
-        setDesabilitarInput(true);
+        setDesabilitar(true);
+        setCarregando(true);
 
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
 
@@ -34,12 +36,12 @@ export default function LoginPage() {
             setToken(res.data.token);
             setFoto(res.data.image)
             navigate("/hoje");
-            console.log(res);
         })
 
         promise.catch((erro) => {
             console.log("erro pagina de login", erro.response.data.mensagem);
-            setDesabilitarInput(false);
+            alert(erro.response.data.mensagem);
+            setDesabilitar(false);
         })
 
     }
@@ -59,7 +61,7 @@ export default function LoginPage() {
                         onChange={(e) => setEmailLogin(e.target.value)}
                         value={emailLogin}
                         required
-                        disabled={desabilitarInput}
+                        disabled={desabilitar}
                     />
                 </Input>
                 <Input>
@@ -70,12 +72,20 @@ export default function LoginPage() {
                         onChange={(e) => setSenhaLogin(e.target.value)}
                         value={senhaLogin}
                         required
-                        disabled={desabilitarInput}
+                        disabled={desabilitar}
                     />
                 </Input>
                 <Botao>
-                    <button type="submit">
-                        <h1>Entrar</h1>
+                    <button 
+                    type="submit"
+                    disabled={desabilitar}>
+                        {carregando ?
+                            <ThreeDots
+                                color={"white"}
+                            />
+                            :
+                            <h1>Entrar</h1>
+                        }
                     </button>
                 </Botao>
             </form>
@@ -135,6 +145,10 @@ const Botao = styled.div`
     justify-content: center;
     margin-bottom: 26px;
     button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 26px;
         background-color: #52B6FF;
         width: 309px;
         height: 45px;  
