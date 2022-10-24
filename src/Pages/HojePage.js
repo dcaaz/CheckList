@@ -1,18 +1,20 @@
 import styled from "styled-components";
-import Fundo from "../Imagem/FundoHoje.png";
-import { Link } from "react-router-dom";
-import CheckImg from "../Imagem/Check.png";
 import { AuthContext } from "../Ayth";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
+import CheckTarefa from "../Componentes/CheckTarefa";
+import FooterAll from "../Componentes/Footer";
+import HeaderAll from "../Componentes/Header";
 
 export default function HojePage() {
 
-    const { token, foto } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
 
     const [habitosHoje, setHabitosHoje] = useState("");
+    const [check, setCheck] = useState();
+    const [porcentagem, setPorcentagem] = useState(0);
 
     let dia = dayjs().locale("pt-br").format("dddd, D/MM");
     dia = dia[0].toUpperCase() + dia.substring(1).replace('-feira', '');
@@ -28,13 +30,19 @@ export default function HojePage() {
 
         const promise = axios.get(url, config);
 
-        promise.then((res) => setHabitosHoje(res.data));
+        promise.then((res) => {
+            let habitos = res.data;
+            let concluidos = habitos.filter((h) => h.done).length;
+
+            setHabitosHoje(habitos);
+            setPorcentagem((concluidos / habitos.length) * 100);
+        });
 
         promise.catch((erro) => {
             console.log("erro pagina hoje", erro.response.data);
             alert(erro.response.data.mensagem);
         })
-    }, [token]);
+    }, [token, check]);
 
     if (!habitosHoje) {
         return <Carregando>Carregando....</Carregando>
@@ -42,43 +50,38 @@ export default function HojePage() {
 
     return (
         <Cinza>
-            <Header>
-                <h1>Tracklt</h1>
-                <img src={foto} alt="foto de perfil do usuário" />
-            </Header>
+            <HeaderAll />
 
             <DiaDaSemana>
                 <h1>{dia}</h1>
             </DiaDaSemana>
 
             <PorcentagemHabitos>
-                <h1>Nenhum hábito concluído ainda</h1>
+                {porcentagem === 0
+                    ?
+                    <h1>Nenhum hábito concluído ainda</h1>
+                    :
+                    <h2>{porcentagem.toFixed(0)}% dos habitos concluídos</h2>
+                }
             </PorcentagemHabitos>
 
-            {habitosHoje.map((h) =>
-                <Metas key={h.id}>
+            {habitosHoje.map((hab) =>
+                <Metas key={hab.id}>
                     <Texto>
-                        <h1>{h.name}</h1>
-                        <Dados>
-                            <h1>Sequência atual: {h.currentSequence} dia</h1>
-                            <h1>Seu recorde: {h.highestSequence} dia</h1>
-                        </Dados>
+                        <h1>{hab.name}</h1>
+                        <Sequencia>
+                            <h2>Sequência atual: <Cor corLetra={hab.done}> {hab.currentSequence} {hab.highestSequence < 2 ? " dia" : " dias"}</Cor></h2>
+                            <h2>Seu recorde: <Cor corLetra={hab.done}> {hab.highestSequence} {hab.highestSequence < 2 ? " dia" : " dias"}</Cor></h2>
+                        </Sequencia>
                     </Texto>
-                    <Check>
-                        <img src={CheckImg} alt="check na tarefa" />
-                    </Check>
+                    <CheckTarefa
+                        setCheck={setCheck}
+                        done={hab.done}
+                        id={hab.id} />
                 </Metas>
             )}
 
-            <Footer>
-                <Link to="/habitos">
-                    <h1>Hábitos</h1>
-                </Link>
-                <img src={Fundo} alt="icone hoje" />
-                <Link to="/historico">
-                    <h1>Histórico</h1>
-                </Link>
-            </Footer>
+            <FooterAll />
         </Cinza>
     )
 }
@@ -88,31 +91,6 @@ const Cinza = styled.div`
     height: 100vh;
     align-items: center;
     background-color: #E5E5E5;
-`
-
-const Header = styled.div`
-    background-color: #126BA5;
-    height:  70px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 18px;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0px;
-    h1 {
-        color: #FFFFFF;
-        font-style: regular;
-        font-size: 38.98px;
-        font-weight: 400;
-        line-height: 48.73px;
-    }
-    img {
-        width: 51px;
-        height: 51px;
-        border-radius: 98.5px;
-    }
 `
 
 const DiaDaSemana = styled.div`
@@ -136,12 +114,13 @@ const PorcentagemHabitos = styled.div`
     margin-top: 2px;
     margin-left: 17px;
     margin-bottom: 28px;
-    h1{
-        color: #BABABA;
-        font-style: regular;
-        font-size: 17.98px;
-        font-weight: 400;
-        line-height: 22px;
+    color: #BABABA;
+    font-style: regular;
+    font-size: 17.98px;
+    font-weight: 400;
+    line-height: 22px;
+    h2{
+        color: #8FC549;
     }
 `
 
@@ -171,53 +150,19 @@ const Texto = styled.div`
     }
 `
 
-const Dados = styled.div`
-    h1{
-        color: #666666;
-        font-style: regular;
-        font-size: 12.98px;
-        font-weight: 400;
-        line-height: 16px;
-        margin-bottom: 0px;
-    }  
-`
-
-const Check = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 69px;
-    height: 69px;
-    background-color: #8FC549;
-    border-radius: 5px;
-    img{
-        width: 35px;
-        height: 28px;
-    }
-`
-
-const Footer = styled.div`
-    width: 100%;
-    height: 70px;
-    background-color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 30px;
-    box-sizing: border-box;
-    position: fixed;
-    bottom: 0px;
-    h1{ 
-        font-style: regular;
-        font-size: 17.98px;
-        line-height: 22px;
-        line-height: 100%;
-        color: #52B6FF;
-    }
-    img{
-        margin-bottom: 16px;
+const Sequencia = styled.div`
+    h2{
         display: flex;
+        color: #666666;
+        font-size: 12.98px;
+        line-height: 16px;
+        margin-bottom: 0px; 
     }
+`
+
+const Cor = styled.p`
+    color: ${props => props.corLetra ? "#8FC549" : "#666666"};
+    margin-left: 2px;
 `
 
 const Carregando = styled.h1`
