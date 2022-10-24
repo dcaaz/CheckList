@@ -46,14 +46,14 @@ export default function HabitosPage() {
             <CriarHabito setRecarregar={setRecarregar} />
 
             {(habitosCriados.length === 0) ?
-                (<Texto>
+                (<Texto data-identifier="no-habit-message">
                     <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
                 </Texto>)
                 :
                 (habitosCriados.map((hab, i) =>
                     <Aba key={i}>
                         <Top>
-                            <h1>{hab.name}</h1>
+                            <h1 data-identifier="habit-name">{hab.name}</h1>
                             <DeletarHabito hab={hab.id} setRecarregar={setRecarregar} />
                         </Top>
 

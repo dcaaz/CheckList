@@ -75,12 +75,13 @@ export default function CriarHabito({setRecarregar}) {
         <>
             <Menu>
                 <h1>Meus hábitos</h1>
-                <button onClick={botaoMais}>+</button>
+                <button data-identifier="create-habit-btn" onClick={botaoMais}>+</button>
             </Menu>
 
             <AbaCadastro esconde={esconde}>
                 <Input>
                     <input
+                        data-identifier="input-habit-name"
                         id="nome habito"
                         type="text"
                         placeholder="  nome do habito"
@@ -91,7 +92,7 @@ export default function CriarHabito({setRecarregar}) {
                     />
                 </Input>
 
-                <Buttons>
+                <Buttons data-identifier="week-day-btn">
                     {todosOsDias.map((item, i) =>
                         <Button
                             key={i}
@@ -106,8 +107,8 @@ export default function CriarHabito({setRecarregar}) {
                 </Buttons>
 
                 <Salvar>
-                    <h1 onClick={cancelar}>Cancelar</h1>
-                    <button onClick={salvar}>
+                    <h1 data-identifier="cancel-habit-create-btn" onClick={cancelar}>Cancelar</h1>
+                    <button data-identifier="save-habit-create-btn" onClick={salvar}>
                         {carregando ?
                             <ThreeDots
                                 color={"white"}

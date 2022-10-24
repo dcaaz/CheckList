@@ -53,7 +53,7 @@ export default function LoginPage() {
             </LogoTipo>
 
             <form onSubmit={logar}>
-                <Input>
+                <Input data-identifier="input-email">
                     <input
                         id="email"
                         type="email"
@@ -64,7 +64,7 @@ export default function LoginPage() {
                         disabled={desabilitar}
                     />
                 </Input>
-                <Input>
+                <Input data-identifier="input-password">
                     <input
                         id="senha"
                         type="password"
@@ -78,7 +78,8 @@ export default function LoginPage() {
                 <Botao>
                     <button 
                     type="submit"
-                    disabled={desabilitar}>
+                    disabled={desabilitar}
+                    data-identifier="login-btn">
                         {carregando ?
                             <ThreeDots
                                 color={"white"}
@@ -91,7 +92,7 @@ export default function LoginPage() {
             </form>
 
             <Cadastro>
-                <Link to="/cadastro">
+                <Link to="/cadastro"  data-identifier="sign-up-action">
                     <h1>Não tem uma conta? Cadastre-se!</h1>
                 </Link>
             </Cadastro>

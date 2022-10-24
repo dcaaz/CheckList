@@ -49,9 +49,10 @@ export default function CadastroPage() {
                 <img src={Logo} alt="logo" />
             </LogoTipo>
 
-            <form onSubmit={cadastrar}>
+            <form data-identifier="back-to-login-action" onSubmit={cadastrar}>
                 <Input>
                     <input
+                        data-identifier="input-email"
                         id="email"
                         type="email"
                         placeholder="   email"
@@ -63,6 +64,7 @@ export default function CadastroPage() {
                 </Input>
                 <Input>
                     <input
+                        data-identifier="input-password"
                         id="senha"
                         type="password"
                         placeholder="  senha"
@@ -74,6 +76,7 @@ export default function CadastroPage() {
                 </Input>
                 <Input>
                     <input
+                        data-identifier="input-name"
                         id="nome"
                         type="text"
                         placeholder="   nome"
@@ -85,6 +88,7 @@ export default function CadastroPage() {
                 </Input>
                 <Input>
                     <input
+                        data-identifier="input-photo"
                         id="foto"
                         type="url"
                         placeholder="   foto"

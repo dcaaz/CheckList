@@ -10,11 +10,10 @@ import HeaderAll from "../Componentes/Header";
 
 export default function HojePage() {
 
-    const { token } = useContext(AuthContext);
+    const { token, porcentagem, setPorcentagem } = useContext(AuthContext);
 
     const [habitosHoje, setHabitosHoje] = useState("");
     const [check, setCheck] = useState();
-    const [porcentagem, setPorcentagem] = useState(0);
 
     let dia = dayjs().locale("pt-br").format("dddd, D/MM");
     dia = dia[0].toUpperCase() + dia.substring(1).replace('-feira', '');
@@ -52,16 +51,16 @@ export default function HojePage() {
         <Cinza>
             <HeaderAll />
 
-            <DiaDaSemana>
+            <DiaDaSemana data-identifier="today-infos">
                 <h1>{dia}</h1>
             </DiaDaSemana>
 
-            <PorcentagemHabitos>
+            <PorcentagemHabitos data-identifier="today-infos">
                 {porcentagem === 0
                     ?
                     <h1>Nenhum hábito concluído ainda</h1>
                     :
-                    <h2>{porcentagem.toFixed(0)}% dos habitos concluídos</h2>
+                    <h2 data-identifier="today-infos">{porcentagem.toFixed(0)}% dos habitos concluídos</h2>
                 }
             </PorcentagemHabitos>
 
@@ -81,7 +80,7 @@ export default function HojePage() {
                 </Metas>
             )}
 
-            <FooterAll />
+            <FooterAll porcentagem={porcentagem}/>
         </Cinza>
     )
 }

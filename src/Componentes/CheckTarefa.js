@@ -9,8 +9,6 @@ export default function CheckTarefa({ done, id, setCheck }) {
     const { token } = useContext(AuthContext);
     
     function check(){
-        console.log("marcar check tarefa!!!");
-
         const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`;
 
         const config = {
@@ -22,7 +20,6 @@ export default function CheckTarefa({ done, id, setCheck }) {
         const promise = axios.post(URL, null, config);
 
         promise.then((res) => {
-            console.log("res marcar check tarefa", res.data);
             setCheck([]);
         })
 
@@ -33,10 +30,6 @@ export default function CheckTarefa({ done, id, setCheck }) {
     }
 
     function desmarcarCheck(){
-        console.log("desmarcar check tarefa!!!");
-
-        console.log("id", id);
-
         const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`;
 
         const config = {
@@ -60,7 +53,7 @@ export default function CheckTarefa({ done, id, setCheck }) {
 
     return (
         <Check  corFundo={done}>
-            <img onClick={done ? desmarcarCheck : check} src={CheckImg} alt="check na tarefa" />
+            <img data-identifier="done-habit-btn" onClick={done ? desmarcarCheck : check} src={CheckImg} alt="check na tarefa" />
         </Check>
     )
 }

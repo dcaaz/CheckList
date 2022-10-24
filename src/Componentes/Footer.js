@@ -1,29 +1,33 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Fundo from "../Imagem/FundoHoje.png";
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { useContext } from "react";
+import { AuthContext } from "../Ayth";
 
 export default function FooterAll() {
-    const value = 0.66;
+
+    const { porcentagem } = useContext(AuthContext);
+
     return (
         <Footer>
-            <Link to="/habitos">
+            <Link data-identifier="habit-page-action" to="/habitos">
                 <h1>Hábitos</h1>
             </Link>
             <Link to="/hoje">
-                <CircularProgressbarWithChildren value={value}
-                    background={true}
+                <CircularProgressbarWithChildren
+                    value={porcentagem}
+                    background
                     backgroundPadding={6}
                     styles={buildStyles({
-                        backgroundColor: "red",
-                        textColor: "pink",
-                        // pathColor: "#fff",
-                        // trailColor: "transparent",
-                        // strokeLinecap: 'round'
+                        backgroundColor: "#52B6FF",
+                        textColor: "#fff",
+                        pathColor: "#fff",
+                        trailColor: "transparent",
+                        strokeLinecap: 'round'
                     })}> <span> Hoje </span>
                 </CircularProgressbarWithChildren>
             </Link>
-            <Link to="/historico">
+            <Link data-identifier="historic-page-action" to="/historico">
                 <h1>Histórico</h1>
             </Link>
         </Footer>
@@ -48,8 +52,13 @@ const Footer = styled.div`
         line-height: 100%;
         color: #52B6FF;
     }
-    img{
-        margin-bottom: 16px;
-        display: flex;
+    svg{
+        width: 100px;
+        height: 100px;
+        margin-bottom: 35px;
+    }
+    span{
+        margin-bottom: 110px;
+        color: #FFFFFF;
     }
 `

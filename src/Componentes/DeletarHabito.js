@@ -35,7 +35,7 @@ export default function DeletarHabito({ hab, setRecarregar }) {
 
     return (
         <>
-            <Img>
+            <Img data-identifier="delete-habit-btn">
                 <img onClick={deletar} src={Lixeira} alt="icone lexeira" />
             </Img>
         </>

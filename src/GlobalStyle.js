@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
         line-height: 1;
-        //font-family: 'Roboto';
+        font-family: 'Lexend Deca', sans-serif;
     }
     ol, ul {
         list-style: none;
@@ -53,6 +53,7 @@ const GlobalStyle = createGlobalStyle`
     }
     a{
         color: #52B6FF;
+        text-decoration: none;
     }
 
 `
