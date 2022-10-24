@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import Fundo from "./Imagem/FundoHoje.png";
+import Fundo from "../Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import CriarHabito from "./CriarHabito";
-import { AuthContext } from "./Ayth";
-import DeletarHabito from "./DeletarHabito";
-
+import CriarHabito from "../Componentes/CriarHabito";
+import { AuthContext } from "../Ayth";
+import DeletarHabito from "../Componentes/DeletarHabito";
 
 export default function HabitosPage() {
 
@@ -15,6 +14,7 @@ export default function HabitosPage() {
     const todosOsDias = ["D", "S", "T", "Q", "Q", "S", "S"];
 
     const [habitosCriados, setHabitosCriados] = useState("");
+    const [recarregar, setRecarregar] = useState();
 
     useEffect(() => {
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
@@ -27,16 +27,14 @@ export default function HabitosPage() {
 
         const promise = axios.get(url, config);
 
-        promise.then((res) => {
-            console.log("res habito habito", res.data);
-            setHabitosCriados(res.data);
-        })
+        promise.then((res) => setHabitosCriados(res.data));
 
         promise.catch((erro) => {
             console.log("erro pagina habitos", erro.response.data);
             alert(erro.response.data.mensagem);
         })
-    }, [token]);
+
+    }, [token, recarregar]);
 
     if (!habitosCriados) {
         return <Carregando>Carregando....</Carregando>
@@ -49,26 +47,26 @@ export default function HabitosPage() {
                 <img src={foto} alt="foto de perfil do usuário" />
             </Header>
 
-            <CriarHabito />
+            <CriarHabito setRecarregar={setRecarregar}/>
 
             {(habitosCriados.length === 0) ?
                 (<Texto>
                     <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
                 </Texto>)
                 :
-                (habitosCriados.map((h, i) =>
+                (habitosCriados.map((hab, i) =>
                     <Aba key={i}>
                         <Top>
-                            <h1>{h.name}</h1>
-                            <DeletarHabito />
+                            <h1>{hab.name}</h1>
+                            <DeletarHabito hab={hab.id} setRecarregar={setRecarregar} />
                         </Top>
 
                         <Buttons>
                             {todosOsDias.map((item, i) =>
                                 <Button
                                     key={i}
-                                    corFundo={h.days.includes(i)}
-                                    corLetra={h.days.includes(i)}
+                                    corFundo={hab.days.includes(i)}
+                                    corLetra={hab.days.includes(i)}
                                 >
                                     {item}
                                 </Button>

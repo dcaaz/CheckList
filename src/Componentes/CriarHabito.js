@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import { AuthContext } from "./Ayth";
+import { AuthContext } from "../Ayth";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function CriarHabito() {
+export default function CriarHabito({setRecarregar}) {
 
     const { token } = useContext(AuthContext);
 
@@ -54,11 +54,11 @@ export default function CriarHabito() {
         const promise = axios.post(URL, body, config);
 
         promise.then((res) => {
-            console.log("resp pagina criar habitos", res.data);
             setHabitoCriado(res.data);
             setNomeHabito("");
             setDiaDaSemana([]);
             setEsconde("none");
+            setRecarregar([]);
         })
 
         promise.catch((erro) => {

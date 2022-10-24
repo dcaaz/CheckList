@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Logo from "./Imagem/Logo.png";
+import Logo from "../Imagem/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";

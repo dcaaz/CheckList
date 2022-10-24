@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
-import LoginPage from "./LoginPage";
-import CadastroPage from "./CadastroPage";
-import HabitosPage from "./HabitosPage";
-import HojePage from "./HojePage";
-import HistoricoPage from "./HistoricoPage";
+import LoginPage from "./Pages/LoginPage";
+import CadastroPage from "./Pages/CadastroPage";
+import HabitosPage from "./Pages/HabitosPage";
+import HojePage from "./Pages/HojePage";
+import HistoricoPage from "./Pages/HistoricoPage";
 import AuthProvider from "./Ayth";
 
 export default function App() {

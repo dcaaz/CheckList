@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Fundo from "./Imagem/FundoHoje.png";
+import Fundo from "../Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
-import CheckImg from "./Imagem/Check.png";
-import { AuthContext } from "./Ayth";
+import CheckImg from "../Imagem/Check.png";
+import { AuthContext } from "../Ayth";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -28,10 +28,7 @@ export default function HojePage() {
 
         const promise = axios.get(url, config);
 
-        promise.then((res) => {
-            console.log("res hoje", res);
-            setHabitosHoje(res.data);
-        })
+        promise.then((res) => setHabitosHoje(res.data));
 
         promise.catch((erro) => {
             console.log("erro pagina hoje", erro.response.data);

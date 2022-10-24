@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Fundo from "./Imagem/FundoHoje.png";
+import Fundo from "../Imagem/FundoHoje.png";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./Ayth";
+import { AuthContext } from "../Ayth";
 import { useContext } from "react";
 
 
