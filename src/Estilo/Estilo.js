@@ -70,7 +70,7 @@ export const Rodape = styled.div`
 `
 
 export const Carregando = styled.h1`
-    font-size: 40px;
-    color: ${CORES.base};
+    font-size: 20px;
+    color: ${CORES.fonte};
     margin-left: 20px;
 `
