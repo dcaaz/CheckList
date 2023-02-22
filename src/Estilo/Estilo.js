@@ -27,7 +27,6 @@ export const Input = styled.div`
     }
     input::placeholder{
         color: #DBDBDB;
-        font-style: regular;
         font-weight: 400;
         font-size: 19.98px;
         line-height: 25px;
@@ -68,4 +67,10 @@ export const Rodape = styled.div`
         font-size: 13.98px;
         line-height: 17px;  
     }
+`
+
+export const Carregando = styled.h1`
+    font-size: 40px;
+    color: ${CORES.base};
+    margin-left: 20px;
 `

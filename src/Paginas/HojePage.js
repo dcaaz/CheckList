@@ -7,6 +7,8 @@ import 'dayjs/locale/pt-br';
 import CheckTarefa from "../Componentes/CheckTarefa";
 import FooterAll from "../Componentes/Footer";
 import HeaderAll from "../Componentes/Header";
+import { Carregando } from "../Estilo/Estilo";
+import CORES from "../Estilo/Constante/Colors";
 
 export default function HojePage() {
 
@@ -34,14 +36,18 @@ export default function HojePage() {
             let concluidos = habitos.filter((h) => h.done).length;
 
             setHabitosHoje(habitos);
-            setPorcentagem((concluidos / habitos.length) * 100);
+
+            if (habitos.length === 0) {
+                setPorcentagem(0);
+            } else {
+                setPorcentagem((concluidos / habitos.length) * 100);
+            }
         });
 
         promise.catch((erro) => {
-            console.log("erro pagina hoje", erro.response.data);
-            alert(erro.response.data.mensagem);
+            alert(erro.response.data.message);
         })
-    }, [token, check]);
+    }, [token, check, setPorcentagem]);
 
     if (!habitosHoje) {
         return <Carregando>Carregando....</Carregando>
@@ -51,16 +57,16 @@ export default function HojePage() {
         <Cinza>
             <HeaderAll />
 
-            <DiaDaSemana data-identifier="today-infos">
+            <DiaDaSemana>
                 <h1>{dia}</h1>
             </DiaDaSemana>
 
-            <PorcentagemHabitos data-identifier="today-infos">
+            <PorcentagemHabitos>
                 {porcentagem === 0
                     ?
                     <h1>Nenhum hábito concluído ainda</h1>
                     :
-                    <h2 data-identifier="today-infos">{porcentagem.toFixed(0)}% dos habitos concluídos</h2>
+                    <h2>{porcentagem.toFixed(0)}% dos habitos concluídos</h2>
                 }
             </PorcentagemHabitos>
 
@@ -80,7 +86,7 @@ export default function HojePage() {
                 </Metas>
             )}
 
-            <FooterAll porcentagem={porcentagem}/>
+            <FooterAll porcentagem={porcentagem} />
         </Cinza>
     )
 }
@@ -100,7 +106,7 @@ const DiaDaSemana = styled.div`
     margin-bottom: 28px;
     box-sizing: border-box;
     h1 {
-        color: #126BA5;
+        color: ${CORES.fonte};
         font-style: regular;
         font-size: 22.98px;
         font-weight: 400;
@@ -162,8 +168,4 @@ const Sequencia = styled.div`
 const Cor = styled.p`
     color: ${props => props.corLetra ? "#8FC549" : "#666666"};
     margin-left: 2px;
-`
-
-const Carregando = styled.h1`
-    font-size: 40px;
 `

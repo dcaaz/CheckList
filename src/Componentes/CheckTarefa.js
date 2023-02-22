@@ -24,8 +24,7 @@ export default function CheckTarefa({ done, id, setCheck }) {
         })
 
         promise.catch((erro) => {
-            console.log("erro marcar check tarefa", erro.response.data);
-            alert(erro.response.data.mensagem);
+            alert(erro.response.data.message);
         })
     }
 
@@ -41,19 +40,17 @@ export default function CheckTarefa({ done, id, setCheck }) {
         const promise = axios.post(URL, null, config);
 
         promise.then((res) => {
-            console.log("res desmarcar check tarefa", res.data);
             setCheck([]);
         })
 
         promise.catch((erro) => {
-            console.log("erro desmacar check tarefa", erro.response.data);
-            alert(erro.response.data.mensagem);
+            alert(erro.response.data.message);
         })
     }
 
     return (
         <Check  corFundo={done}>
-            <img data-identifier="done-habit-btn" onClick={done ? desmarcarCheck : check} src={CheckImg} alt="check na tarefa" />
+            <img onClick={done ? desmarcarCheck : check} src={CheckImg} alt="check na tarefa" />
         </Check>
     )
 }

@@ -3,8 +3,9 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../Ayth";
 import { ThreeDots } from "react-loader-spinner";
+import CORES from "../Estilo/Constante/Colors";
 
-export default function CriarHabito({setRecarregar}) {
+export default function CriarHabito({ setRecarregar }) {
 
     const { token } = useContext(AuthContext);
 
@@ -62,8 +63,9 @@ export default function CriarHabito({setRecarregar}) {
         })
 
         promise.catch((erro) => {
-            console.log("erro pagina criar habitos", erro.response.data);
-            alert(erro.response.data.mensagem);
+            setDesabilitar(false);
+            setCarregando(false);
+            alert(erro.response.data.message);
         })
     }
 
@@ -75,14 +77,12 @@ export default function CriarHabito({setRecarregar}) {
         <>
             <Menu>
                 <h1>Meus hábitos</h1>
-                <button data-identifier="create-habit-btn" onClick={botaoMais}>+</button>
+                <button onClick={botaoMais}>+</button>
             </Menu>
 
             <AbaCadastro esconde={esconde}>
                 <Input>
                     <input
-                        data-identifier="input-habit-name"
-                        id="nome habito"
                         type="text"
                         placeholder="  nome do habito"
                         onChange={(e) => setNomeHabito(e.target.value)}
@@ -92,7 +92,7 @@ export default function CriarHabito({setRecarregar}) {
                     />
                 </Input>
 
-                <Buttons data-identifier="week-day-btn">
+                <Buttons>
                     {todosOsDias.map((item, i) =>
                         <Button
                             key={i}
@@ -107,8 +107,8 @@ export default function CriarHabito({setRecarregar}) {
                 </Buttons>
 
                 <Salvar>
-                    <h1 data-identifier="cancel-habit-create-btn" onClick={cancelar}>Cancelar</h1>
-                    <button data-identifier="save-habit-create-btn" onClick={salvar}>
+                    <h1 onClick={cancelar}>Cancelar</h1>
+                    <button onClick={salvar}>
                         {carregando ?
                             <ThreeDots
                                 color={"white"}
@@ -135,19 +135,19 @@ const Menu = styled.div`
     padding: 30px 18px;
     box-sizing: border-box;
     h1 {
-        color: #126BA5;
+        color: ${CORES.fonte};
         font-style: regular;
         font-size: 22.98px;
         font-weight: 400;
         line-height: 29px;
     }
     button {
-        background-color: #52B6FF;
+        background-color: #BD7CB4;
         width: 40px;
         height: 35px;
         border-radius: 4.64px;
         border-style: none;
-        color: #FFFFFF;
+        color: ${CORES.fonte};
         font-size: 27px;
     }
 `

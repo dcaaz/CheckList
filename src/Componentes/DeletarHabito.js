@@ -9,7 +9,6 @@ export default function DeletarHabito({ hab, setRecarregar }) {
     const { token } = useContext(AuthContext);
 
     function deletar() {
-        console.log("Deletar!!!");
 
         if (window.confirm("Deseja excluir este hábito?")) {
 
@@ -26,8 +25,7 @@ export default function DeletarHabito({ hab, setRecarregar }) {
             promise.then(() => setRecarregar([]));
 
             promise.catch((erro) => {
-                console.log("erro pagina criar habitos", erro.response.data);
-                alert(erro.response.data.mensagem);
+                alert(erro.response.data.message);
             })
 
         }
@@ -35,7 +33,7 @@ export default function DeletarHabito({ hab, setRecarregar }) {
 
     return (
         <>
-            <Img data-identifier="delete-habit-btn">
+            <Img>
                 <img onClick={deletar} src={Lixeira} alt="icone lexeira" />
             </Img>
         </>

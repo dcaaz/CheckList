@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import { useContext } from "react";
 import { AuthContext } from "../Ayth";
+import CORES from "../Estilo/Constante/Colors";
 
 export default function FooterAll() {
 
@@ -10,7 +11,7 @@ export default function FooterAll() {
 
     return (
         <Footer>
-            <Link data-identifier="habit-page-action" to="/habitos">
+            <Link to="/habitos">
                 <h1>Hábitos</h1>
             </Link>
             <Link to="/hoje">
@@ -19,7 +20,7 @@ export default function FooterAll() {
                     background
                     backgroundPadding={6}
                     styles={buildStyles({
-                        backgroundColor: "#52B6FF",
+                        backgroundColor: "#78e076",
                         textColor: "#fff",
                         pathColor: "#fff",
                         trailColor: "transparent",
@@ -27,8 +28,8 @@ export default function FooterAll() {
                     })}> <span> Hoje </span>
                 </CircularProgressbarWithChildren>
             </Link>
-            <Link data-identifier="historic-page-action" to="/historico">
-                <h1>Histórico</h1>
+            <Link to="/">
+                <h1>Sair</h1>
             </Link>
         </Footer>
     )
@@ -50,7 +51,7 @@ const Footer = styled.div`
         font-size: 17.98px;
         line-height: 22px;
         line-height: 100%;
-        color: #52B6FF;
+        color: ${CORES.base};
     }
     svg{
         width: 100px;

@@ -6,6 +6,7 @@ import { AuthContext } from "../Ayth";
 import DeletarHabito from "../Componentes/DeletarHabito";
 import FooterAll from "../Componentes/Footer";
 import HeaderAll from "../Componentes/Header";
+import { Carregando } from "../Estilo/Estilo";
 
 export default function HabitosPage() {
 
@@ -27,14 +28,15 @@ export default function HabitosPage() {
 
         const promise = axios.get(url, config);
 
-        promise.then((res) => setHabitosCriados(res.data));
-
-        promise.catch((erro) => {
-            console.log("erro pagina habitos", erro.response.data);
-            alert(erro.response.data.mensagem);
+        promise.then((res) => {
+            setHabitosCriados(res.data);
         })
 
-    }, [token, recarregar]);
+        promise.catch((erro) => {
+            alert(erro.response.data.message);
+        })
+
+    }, [token, recarregar, habitosCriados]);
 
     if (!habitosCriados) {
         return <Carregando>Carregando....</Carregando>
@@ -46,14 +48,14 @@ export default function HabitosPage() {
             <CriarHabito setRecarregar={setRecarregar} />
 
             {(habitosCriados.length === 0) ?
-                (<Texto data-identifier="no-habit-message">
-                    <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
+                (<Texto>
+                    <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar!</h1>
                 </Texto>)
                 :
                 (habitosCriados.map((hab, i) =>
                     <Aba key={i}>
                         <Top>
-                            <h1 data-identifier="habit-name">{hab.name}</h1>
+                            <h1>{hab.name}</h1>
                             <DeletarHabito hab={hab.id} setRecarregar={setRecarregar} />
                         </Top>
 
@@ -77,7 +79,7 @@ export default function HabitosPage() {
 }
 
 const Cinza = styled.div`
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     align-items: center;
     background-color: #E5E5E5;
@@ -133,8 +135,4 @@ const Button = styled.div`
     color:  ${props => props.corLetra ? "#FFFFFF" : "#D4D4D4"};
     border: 1px solid #CFCFCF;
     border-radius: 5px;
-`
-
-const Carregando = styled.h1`
-    font-size: 40px;
 `

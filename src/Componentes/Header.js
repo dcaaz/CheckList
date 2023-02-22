@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../Ayth";
+import CORES from "../Estilo/Constante/Colors";
 
 export default function HeaderAll() {
 
@@ -8,14 +9,14 @@ export default function HeaderAll() {
 
     return (
         <Header>
-            <h1>TrackIt</h1>
-            <img  data-identifier="avatar" src={foto} alt="foto de perfil do usuário" />
+            <h1>CheckListDani</h1>
+            <img src={foto} alt="foto de perfil do usuário" />
         </Header>
     )
 }
 
 const Header = styled.div`
-    background-color: #126BA5;
+    background-color: ${CORES.base};
     height:  70px;
     width: 100%;
     display: flex;
@@ -26,10 +27,9 @@ const Header = styled.div`
     position: fixed;
     top: 0px;
     h1 {
-        color: #FFFFFF;
-        font-family: 'Playball', cursive;
-        font-style: regular;
-        font-size: 38.98px;
+        color: ${CORES.fonte};
+        font-family: 'Playball';
+        font-size: 30px;
         font-weight: 400;
         line-height: 48.73px;
     }

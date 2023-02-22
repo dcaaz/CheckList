@@ -4,7 +4,6 @@ import LoginPage from "./Paginas/LoginPage";
 import CadastroPage from "./Paginas/CadastroPage";
 import HabitosPage from "./Paginas/HabitosPage";
 import HojePage from "./Paginas/HojePage";
-import HistoricoPage from "./Paginas/HistoricoPage";
 import AuthProvider from "./Ayth";
 
 export default function App() {
@@ -18,7 +17,6 @@ export default function App() {
                     <Route path="/cadastro" element={<CadastroPage />}></Route>
                     <Route path="/habitos" element={<HabitosPage />}></Route>
                     <Route path="/hoje" element={<HojePage />}></Route>
-                    <Route path="/historico" element={<HistoricoPage />}></Route>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
