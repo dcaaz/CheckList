@@ -1,9 +1,9 @@
-import styled from "styled-components";
 import Logo from "../Imagem/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
+import { Rodape, Input, Botao, LogoTipo } from "../Estilo/Estilo";
 
 export default function CadastroPage() {
     const [emailCadastro, setEmailCadastro] = useState("");
@@ -37,24 +37,23 @@ export default function CadastroPage() {
         })
 
         promise.catch((erro) => {
-            console.log("erro pagina de cadastro", erro.response.data.mensagem);
-            alert(erro.response.data.mensagem);
+            setCarregando(false);
+            alert(erro.response.data.message);
             setDesabilitar(false);
         })
     }
 
     return (
-        <Branco>
+        <>
             <LogoTipo>
                 <img src={Logo} alt="logo" />
             </LogoTipo>
 
-            <form data-identifier="back-to-login-action" onSubmit={cadastrar}>
+            <form onSubmit={cadastrar}>
                 <Input>
                     <input
-                        data-identifier="input-email"
-                        id="email"
                         type="email"
+                        autocomplete="off"
                         placeholder="   email"
                         onChange={(e) => setEmailCadastro(e.target.value)}
                         value={emailCadastro}
@@ -64,9 +63,8 @@ export default function CadastroPage() {
                 </Input>
                 <Input>
                     <input
-                        data-identifier="input-password"
-                        id="senha"
                         type="password"
+                        autocomplete="off"
                         placeholder="  senha"
                         onChange={(e) => setSenhaCadastro(e.target.value)}
                         value={senhaCadastro}
@@ -76,9 +74,8 @@ export default function CadastroPage() {
                 </Input>
                 <Input>
                     <input
-                        data-identifier="input-name"
-                        id="nome"
                         type="text"
+                        autocomplete="off"
                         placeholder="   nome"
                         onChange={(e) => setNomeCadastro(e.target.value)}
                         value={nomeCadastro}
@@ -88,9 +85,8 @@ export default function CadastroPage() {
                 </Input>
                 <Input>
                     <input
-                        data-identifier="input-photo"
-                        id="foto"
                         type="url"
+                        autocomplete="off"
                         placeholder="   foto"
                         onChange={(e) => setFotoCadastro(e.target.value)}
                         value={fotoCadastro}
@@ -113,96 +109,11 @@ export default function CadastroPage() {
                 </Botao>
             </form>
 
-            {/* <Loader
-                type="Spinner Type"
-                color="rgb color"
-                height={number}
-                width={number}
-                timeout={number in ms}
-            /> */}
-
-            <Cadastro>
-
+            <Rodape>
                 <Link to="/">
                     <h1>Já tem uma conta? Faça login!</h1>
                 </Link>
-            </Cadastro>
-        </Branco>
-
+            </Rodape>
+        </>
     )
 }
-
-const Branco = styled.div`
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-
-`
-
-const LogoTipo = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 50px 0px 97px;
-    box-sizing: border-box;
-   img{
-        width: 180px;
-        height: 178.38px;
-   }
-`
-
-const Input = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    input {
-        width: 303px;
-        height: 45px;  
-        border-radius: 5px;
-        border-color: #D4D4D4;
-        border-style: solid;
-        margin-bottom: 6px;
-    }
-    input::placeholder{
-        color: #DBDBDB;
-        font-style: regular;
-        font-weight: 400;
-        font-size: 19.98px;
-        line-height: 25px;
-    }
-`
-
-const Botao = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 26px;
-    button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #52B6FF;
-        width: 309px;
-        height: 45px;  
-        border-radius: 4.64px;
-        border-style: none;
-        color: #FFFFFF;
-        font-size: 27px;
-    }
-`
-
-const Cadastro = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: top;
-    vertical-align: 
-#52B6FF;
-    h1{
-        color: #52B6FF;
-        font-style: regular;
-        font-weight: 400;
-        font-size: 13.98px;
-        line-height: 17px;  
-    }
-`
