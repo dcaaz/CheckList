@@ -125,7 +125,7 @@ const PorcentagemHabitos = styled.div`
     font-weight: 400;
     line-height: 22px;
     h2{
-        color: #8FC549;
+        color: #558e36;
     }
 `
 

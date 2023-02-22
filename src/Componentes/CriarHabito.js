@@ -142,13 +142,14 @@ const Menu = styled.div`
         line-height: 29px;
     }
     button {
-        background-color: #BD7CB4;
+        background-color: #558e36;
         width: 40px;
         height: 35px;
         border-radius: 4.64px;
         border-style: none;
         color: ${CORES.fonte};
         font-size: 27px;
+        margin-right: 20px;
     }
 `
 
@@ -214,13 +215,13 @@ const Salvar = styled.div`
         justify-content: center;
         width: 84px;
         height: 35px;
-        background-color: #52B6FF;
+        background-color:  ${CORES.base};
         color: #FFFFFF;
         margin-left: 23px;
-        border: 1px solid #52B6FF;
+        border: 1px solid  ${CORES.base};
         border-radius: 5px;
     }
     h1{
-        color: #52B6FF;
+        color: ${CORES.base};
     }
 `
